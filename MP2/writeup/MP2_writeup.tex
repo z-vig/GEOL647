@@ -1,0 +1,82 @@
+\documentclass{article} % This command is used to set the type of document you are working on such as an article, book, or presenation
+
+\usepackage{geometry} % This package allows the editing of the page layout
+\geometry{top=1in,bottom=1in,left=1in,right=1in,a4paper}
+\usepackage{float}
+\usepackage{amsmath}  % This package allows the use of a large range of mathematical formula, commands, and symbols
+\usepackage{amssymb}
+\usepackage{graphicx}  % This package allows the importing of images
+\usepackage{gensymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{pdfpages}
+\usepackage{wrapfig}
+
+\newcommand{\question}[2][]{\begin{flushleft}
+        \textbf{Problem #1}: #2
+\end{flushleft}}
+
+\newcommand{\sol}{\textbf{Solution}:} %Use if you want a boldface solution line
+\newcommand{\maketitletwo}[2][]{
+        \begin{center}
+        \Large{\textbf{Matlab Practical 2}
+            
+            GEOL647} % Name of course here
+        \vspace{5pt}
+        
+        \normalsize{Zach Vig  % Your name here
+        
+        \today}        % Change to due date if preferred
+        \vspace{15pt}
+        
+        \end{center}}
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+\begin{document}
+\maketitletwo[2]
+
+\question[1]{What is the analytic expression for the frequency response function of a simple seismometer with mass \textbf{m}, spring constant \textbf{k}, and coefficient of friction \textbf{D}?}
+
+\sol In the Fourier domain, the ODE for seismometer motion is:
+\begin{align*}
+\omega^2\tilde{u}(\omega) = \frac{k}{m}\tilde{x}(\omega)+i\omega\frac{D}{m}\tilde{x}(\omega)-\omega^2\tilde{x}(\omega)
+\end{align*}
+
+Where D is the damping term, u is the relative position of the Earth (input) and x is the relative position of the seismometer (output). So the frequency response function (FRF) is:
+
+\begin{align*}
+        \tilde{X}(\omega)= \frac{\tilde{x}(\omega)}{\tilde{u}(\omega)} = \frac{\omega^2}{\frac{k}{m}+\frac{D}{m}i\omega-\omega^2}
+\end{align*}
+
+\question[2]{Derive the amplitude response function of the seismometer from the FRF:}
+
+\sol
+\begin{align*}
+        ARF = \sqrt{|\tilde{X}(\omega)|} &= \sqrt{\frac{\omega^2}{\frac{k}{m}+\frac{D}{m}i\omega-\omega^2}\frac{\omega^2}{\frac{k}{m}-\frac{D}{m}i\omega-\omega^2}} \\
+        ARF &= \frac{\omega^2}{\sqrt{\left(\frac{k}{m}-\omega^2\right)^2+\left(\frac{D}{m}\omega\right)^2}}
+\end{align*}
+
+\question[3]{Derive the phase delay function of the seismometer from the FRF:}
+
+\sol
+\begin{align*}
+        \Theta (\omega) &= \arctan\left(\frac{Im(\tilde{X}(\omega))}{Re(\tilde{X}(\omega))}\right) \\
+\end{align*}
+
+To find this, we must rewrite $\tilde{X}(\omega)$ as:
+
+\begin{align*}
+        \tilde{X}(\omega) &= \frac{\omega^2}{\frac{k}{m}+\frac{D}{m}i\omega-\omega^2}\frac{\frac{k}{m}-\frac{D}{m}i\omega-\omega^2}{\frac{k}{m}-\frac{D}{m}i\omega-\omega^2} = \frac{-\omega^4+\omega^2\frac{k}{m}-i\omega^3\frac{D}{m}}{\left[\frac{k}{m}-\omega^2\right]^2+\left(\frac{D}{m}\omega\right)^2} \\ 
+        Im(\tilde{X}(\omega)) &= \frac{-\omega^3\frac{D}{m}}{\left[\frac{k}{m}-\omega^2\right]^2+\left(\frac{D}{m}\omega\right)^2}, \quad Re(\tilde{X}(\omega)) = \frac{-\omega^4 + \omega^2\frac{k}{m}}{\left[\frac{k}{m}-\omega^2\right]^2+\left(\frac{D}{m}\omega\right)^2}
+\end{align*}
+
+Plugging this in, we have:
+
+\begin{align*}
+        \Theta(\omega) = \arctan\left(\frac{-\omega^3\frac{D}{m}}{-\omega^4+\omega^2\frac{k}{m}}\right) = \arctan\left(\frac{-\omega\frac{D}{m}}{\frac{k}{m}-\omega^2}\right) = \arctan\left(\frac{-\omega D}{k-m\omega^2}\right)
+\end{align*}
+
+\end{document}
