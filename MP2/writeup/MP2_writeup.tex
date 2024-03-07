@@ -38,7 +38,7 @@
 \begin{document}
 \maketitletwo[2]
 
-\question[1]{What is the analytic expression for the frequency response function of a simple seismometer with mass \textbf{m}, spring constant \textbf{k}, and coefficient of friction \textbf{D}?}
+\question[1.1]{What is the analytic expression for the frequency response function of a simple seismometer with mass \textbf{m}, spring constant \textbf{k}, and coefficient of friction \textbf{D}?}
 
 \sol In the Fourier domain, the ODE for seismometer motion is:
 \begin{align*}
@@ -51,7 +51,7 @@ Where D is the damping term, u is the relative position of the Earth (input) and
         \tilde{X}(\omega)= \frac{\tilde{x}(\omega)}{\tilde{u}(\omega)} = \frac{\omega^2}{\frac{k}{m}+\frac{D}{m}i\omega-\omega^2}
 \end{align*}
 
-\question[2]{Derive the amplitude response function of the seismometer from the FRF:}
+\question[1.2]{Derive the amplitude response function of the seismometer from the FRF:}
 
 \sol
 \begin{align*}
@@ -59,7 +59,7 @@ Where D is the damping term, u is the relative position of the Earth (input) and
         ARF &= \frac{\omega^2}{\sqrt{\left(\frac{k}{m}-\omega^2\right)^2+\left(\frac{D}{m}\omega\right)^2}}
 \end{align*}
 
-\question[3]{Derive the phase delay function of the seismometer from the FRF:}
+\question[1.3]{Derive the phase delay function of the seismometer from the FRF:}
 
 \sol
 \begin{align*}
@@ -78,5 +78,33 @@ Plugging this in, we have:
 \begin{align*}
         \Theta(\omega) = \arctan\left(\frac{-\omega^3\frac{D}{m}}{-\omega^4+\omega^2\frac{k}{m}}\right) = \arctan\left(\frac{-\omega\frac{D}{m}}{\frac{k}{m}-\omega^2}\right) = \arctan\left(\frac{-\omega D}{k-m\omega^2}\right)
 \end{align*}
+
+\newpage
+\question[2.1]{Write the frequency response function for a seismometer with this type of feedback system. To do this, think about inputs and outputs. Because voltage is output by the system and ground acceleration is input, compute $V/\ddot{u}$.}
+\[(1)\text{\space}\ddot{y} = \ddot{u}-\ddot{x}\quad\quad (2)\text{\space}\ddot{x}=\beta V\quad\quad (3)\text{\space}V=\frac{KA\omega^2}{\omega^2-2i\epsilon\omega-\omega^2_0}\ddot{y}\]
+\sol \space To begin, we will rewrite certain terms to make things clearer:
+
+\begin{align*}
+        V &= KA\tilde{X}_0\ddot{y}\\
+        \ddot{u} &= \ddot{y}+\ddot{x} = \ddot{y}+\beta KA\tilde{X}_0\ddot{y}
+\end{align*}
+
+\noindent Where $\tilde{X}_0$ is the FRF of an inertial seismometer. Now, solving for the FRF, we have:
+\begin{align*}
+        \tilde{X}(\omega) = \frac{V}{\ddot{u}} &= \frac{KA\tilde{X}_0\ddot{y}}{\ddot{y}+\beta KA\tilde{X}_0\ddot{y}} \\
+        \tilde{X}(\omega) &= \frac{KA\tilde{X}_0}{1+\beta KA\tilde{X}_0}\\
+        \tilde{X}(\omega) &= \frac{KA\omega^2}{\omega^2-2i\epsilon\omega-\omega_0^2+\beta KA\omega^2}\\
+        \tilde{X}(\omega) &= \frac{KA\omega^2}{(1+\beta KA)\omega^2 - 2i\epsilon\omega - \omega_0^2}
+\end{align*}
+
+\question[2.2]{Solve for the amplitude response function of the system (I'm going to call $ARF(\omega)$, $\xi(\omega)$ because I think it's cool):}
+\sol
+
+\begin{align*}
+        \xi(\omega) &= |\tilde{X}(\omega)| \\
+        \xi(\omega) &= \sqrt{\frac{KA\omega^2}{(1+\beta KA)\omega^2 - 2i\epsilon\omega - \omega_0^2}\frac{KA\omega^2}{(1+\beta KA)\omega^2 + 2i\epsilon\omega - \omega_0^2}} \\
+        \xi(\omega) &= \frac{KA\omega^2}{\sqrt{\left[(1+\beta KA)\omega^2-\omega_0^2\right]^2+4\epsilon^2\omega^2}}
+\end{align*}
+
 
 \end{document}

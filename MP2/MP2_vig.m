@@ -23,6 +23,7 @@ set(gca,'xscale','log','yscale','log')
 
 %q1.7
 hold on;
+xlabel('Frequency');ylabel('Amplitude Response');title('Amplitude Response while varying damping coefficient')
 for i = [0.3,1,3,10]
     ARF = w.^2 ./ (sqrt((k_M - w.^2) .^ 2 + (i .* w) .^ 2));
     plot(w,ARF,'DisplayName',num2str(i))
@@ -34,7 +35,7 @@ legend
 
 %q1.8
 figure;
-xlabel('Frequency');ylabel('Phase Delay')
+xlabel('Frequency');ylabel('Phase Delay');title('Phase Delay while varying damping coefficient')
 hold on;
 for i = [0.05,0.3,1,3,10]
     PD = atan2(-w .* i,k_M - w .^ 2);
@@ -50,7 +51,7 @@ legend
 %q1.10
 
 figure;
-xlabel('Frequency');ylabel('Amplitude Response')
+xlabel('Frequency');ylabel('Amplitude Response');title('Amplitude Response, varying fundamental frequency of spring')
 set(gca,'xscale','log','yscale','log')
 hold on;
 D_M = 3;
@@ -60,8 +61,8 @@ for i = linspace(16*pi^2,16000*pi^2,10)
 end
 legend
 
-f = figure;
-xlabel('Frequency');ylabel('Phase Delay')
+figure;
+xlabel('Frequency');ylabel('Phase Delay');title('Phase Delay, varying fundamental frequency of spring')
 hold on;
 for i = linspace(16*pi^2,16000*pi^2,10)
     PD = atan2(-w .* D_M,i - w .^ 2);
@@ -71,6 +72,26 @@ legend
 
 %Changing k/M changes the resonant frequency of the seismometer, so it shifts the peak and the dropoff for the ARF and the PD, respectively.
 
-%q.11
+%q1.11
 
 %To maximize sensitivity for long period motion (i.e. low frequency), I would reduce k and increase m. D does not changes the sensitivity, but rather the distortion of the signal.
+
+%q2.3
+w_0 = 20*pi;
+ep = 1;
+bt = 1;
+figure;
+xlabel('Frequency');ylabel('Amplitude Respone');title('Force Feedback Seismometer')
+set(gca,'xscale','log','yscale','log');
+hold on;
+for AK = linspace(0.1,30,10)
+    ARF = (AK .* w .^2) ./ (sqrt((((1+bt*AK) .* w .^2) - w_0^2) .^2 + (4*ep^2 .* w .^2)));
+    plot(w,ARF,'DisplayName',num2str(AK))
+end
+legend
+
+%q2.4
+%As AK is increased, the resonant frequency decreases. This is different from part 1, since the fundamental frequency w_0 does not need to change for the resonant frequency to drop. The general shape of the amplitude response function. however, is the same for both the inertial seismometer and the force feedback seismometer.
+
+%q2.5
+% A force feedback system gives you a way of easily tuning the fundamental frequency of your seismometer without adjusting any of the mechanical components of the system (e.g. spring constant and damping coefficient)
