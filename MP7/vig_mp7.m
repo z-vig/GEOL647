@@ -81,3 +81,24 @@ hold off;
 %}
 
 %q2.1
+load Harmonics/GUFM1.mat
+
+power = zeros(14);
+for i = 1:14
+    A = MAG(MAG(:,1) == i,3:4);
+    power(i) = sum(A(:) .^ 2);
+end
+
+figure(3); subplot(2,1,1);
+plot(1:14,power); yscale('log');xlabel('Spherical Harmonic Degree');ylabel('Log Power'); title('Power');
+%{
+    The lowest degrees have the highest power, and the power decreases with increasing spherical harmonic degree.
+%}
+
+%q2.2
+subplot(2,1,2); hold on;
+scatter(MAG(:,1),MAG(:,3),"DisplayName","Positive m");
+scatter(MAG(:,1),MAG(:,4),"DisplayName","Negative m");
+yscale('log');xlabel('Spherical Harmonic Degree'); ylabel('Coefficients'); title('Coefficients');
+xticklabels()
+legend(); hold off;
