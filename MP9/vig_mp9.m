@@ -26,21 +26,43 @@ plot(x,A*m0,"DisplayName","My Guess","Color","Black","LineStyle","--");
     A is an 8 by 2 matrix, meaning we have 8 data points to determine 2 parameters (slope, y-intercept). This means that the problem is overdetermined.
 %}
 
-%q1.6
-misfitL1 = @(m)sum(abs(A*m-y));
-m1 = fminsearch(misfitL1,m0);
-plot(x,A*m1,"DisplayName","L1-norm","Color","Red");
-
 %q1.5
 misfitL2 = @(m)sum((A*m-y) .^ 2);
 m2 = fminsearch(misfitL2,m0);
 plot(x,A*m2,"DisplayName","L2-norm","Color","Blue");
+%slope: 1.9405, y-intercept: 0.0502
+
+%q1.6
+misfitL1 = @(m)sum(abs(A*m-y));
+m1 = fminsearch(misfitL1,m0);
+plot(x,A*m1,"DisplayName","L1-norm","Color","Red");
+%slope: 1.900, y-intercept: 0.1000. These model values are slightly different from the L2 model, favoring going through the endpoints points.
 
 %q1.7
 m3 = linsolve(A,y);
 plot(x,A*m3,"DisplayName","Exact","Color","magenta");
+%{
+    slope: 1.9405, y-intercept: 0.0502. These results match the L2 model better than the L1 model.
+%}
 
 legend();
+
+%q1.8
+%{
+    0.00 0.00
+    0.00 0.01
+%}
+
+%q1.9
+b = repmat(0.01,8,1);
+
+misfitL2_witherr = @(m)sum(((A*m-y) .^ 2) ./ b);
+m2_witherr = fminsearch(misfitL2_witherr,m0);
+plot(x,A*m2_witherr,"DisplayName","Including Error","Color","cyan");
+errorbar(x,y,b,"LineStyle","none");
+%{
+    slope: 1.9405, y-intercept: 0.0502. Accounting for errors did not affect the results of the L2-norm fit.
+%}
 
 
 
