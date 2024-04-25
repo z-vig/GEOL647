@@ -40,30 +40,43 @@ plot(x,A*m1,"DisplayName","L1-norm","Color","Red");
 
 %q1.7
 m3 = linsolve(A,y);
-plot(x,A*m3,"DisplayName","Exact","Color","magenta");
+plot(x,A*m3,"DisplayName","LinSolve","Color","magenta");
 %{
     slope: 1.9405, y-intercept: 0.0502. These results match the L2 model better than the L1 model.
 %}
 
-legend();
-
 %q1.8
 %{
-    0.00 0.00
-    0.00 0.01
+    0.01 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+    0.00 0.01 0.00 0.00 0.00 0.00 0.00 0.00
+    0.00 0.00 0.01 0.00 0.00 0.00 0.00 0.00
+    0.00 0.00 0.00 0.01 0.00 0.00 0.00 0.00
+    0.00 0.00 0.00 0.00 0.01 0.00 0.00 0.00
+    0.00 0.00 0.00 0.00 0.00 0.01 0.00 0.00
+    0.00 0.00 0.00 0.00 0.00 0.00 0.01 0.00
+    0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.01
 %}
 
 %q1.9
-b = repmat(0.01,8,1);
+Cd = diag(repmat(0.01,8,1));
 
-misfitL2_witherr = @(m)sum(((A*m-y) .^ 2) ./ b);
-m2_witherr = fminsearch(misfitL2_witherr,m0);
-plot(x,A*m2_witherr,"DisplayName","Including Error","Color","cyan");
-errorbar(x,y,b,"LineStyle","none");
+m_analytical = ((A' * (Cd\A)) \ A') * (Cd \ y);
+
+plot(x,A*m_analytical,"DisplayName","Including Error","Color","cyan");
+legend()
+errorbar(x,y,diag(Cd),"LineStyle","none","DisplayName","Error");
 %{
-    slope: 1.9405, y-intercept: 0.0502. Accounting for errors did not affect the results of the L2-norm fit.
+    slope: 1.9405, y-intercept: 0.0502. Accounting for errors did not affect the results of the fit.
 %}
+hold off;
 
+Cm = inv(A' * (Cd\A));
+corr_coef = Cm(1,2)/(Cm(1,1)^0.5*Cm(2,2)^0.5);
 
-
-
+%q2.1
+y(2) = 3.06;
+misfitL2 = @(m)sum((A*m-y) .^ 2);
+m1_outlier = fminsearch(misfitL2,m0);
+%{
+    slope: 1.9405
+%}
