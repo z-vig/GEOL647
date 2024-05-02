@@ -42,6 +42,8 @@ plot(x,A*m3,"DisplayName","Exact","Color","magenta");
 
 legend();
 
+%q1
+
 
 
 
