@@ -19,3 +19,9 @@ m = [2,0; 0,1];
 Cd = diag([0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]);
 
 %q1.4
+m = ((A' * (Cd\A)) \ A') * (Cd \ y);
+
+
+%q2.1
+load('Data_for_Practical_10.mat');
+pcolor(X,Y,Z);
