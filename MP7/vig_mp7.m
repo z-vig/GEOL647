@@ -134,7 +134,7 @@ a_r = 6371/3481;
 MAG(1,3) = -42101;
 MAG_CMB = zeros(size(MAG));
 for i = 1:length(MAG)
-    MAG_CMB(i,:) = [MAG(i,1),MAG(i,2),a_r*MAG(i,3)^(MAG(i,1)+1),a_r*MAG(i,4)^(MAG(i,1)+1)];
+    MAG_CMB(i,:) = [MAG(i,1),MAG(i,2),(a_r^(MAG(i,1)+1))*MAG(i,3),(a_r^(MAG(i,1)+1))*MAG(i,4)];
 end
 
 %q2.7
